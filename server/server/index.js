@@ -25,7 +25,7 @@ app.get("/service_discovery/address", (req, res) => {
     var cosnulIp = req.query.consulIP;
 		var all = req.query.all;
     console.log(req.url);
-    if (!serviceName || !cosnulIp) {
+    if (!serviceName) {
         res.send('请求参数有问题:' + req.url);
     } else {
         var result = consulUtil.getService(serviceName, cosnulIp, all,(result) => {
