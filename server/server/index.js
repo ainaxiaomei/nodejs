@@ -13,7 +13,7 @@ app.get("/service_discovery/register", function(req, res) {
     console.log("start registering");
 
     consulUtil.register(req.query.serviceName, req.query.servicePort,
-        req.query.serviceIp, req.query.heathPath, req.query.consulIP);
+        req.query.serviceIP, req.query.heathPath, req.query.consulIP);
 
     res.send("ok");
 
@@ -23,7 +23,7 @@ app.get("/service_discovery/address", (req, res) => {
 
     var serviceName = req.query.content;
     var cosnulIp = req.query.consulIP;
-		var all = req.query.all;
+                var all = req.query.all;
     console.log(req.url);
     if (!serviceName) {
         res.send('请求参数有问题:' + req.url);
@@ -39,6 +39,6 @@ app.on('error', (e) => {
     console.log("error ! ${e}");
 });
 
-app.listen(3000, () => {
+app.listen(3000, "0.0.0.0",() => {
     console.log("Module Is Started !");
 });

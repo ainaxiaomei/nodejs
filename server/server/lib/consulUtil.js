@@ -1,11 +1,11 @@
 var http = require('http');
 function getService(serviceName, consulIP, all,callBack) {
     var result = "";
-		if(all){
-			var url = "http://" + consulIP + ":8500/v1/health/service/" + serviceName;
-		}else{
-			var url = "http://" + consulIP + ":8500/v1/health/service/" + serviceName+"?passing";
-		}
+                if(all){
+                        var url = "http://" + consulIP + ":8500/v1/health/service/" + serviceName;
+                }else{
+                        var url = "http://" + consulIP + ":8500/v1/health/service/" + serviceName+"?passing";
+                }
 
     console.log("send request to consul %s", url);
     http.get(url, (res) => {
@@ -16,14 +16,14 @@ function getService(serviceName, consulIP, all,callBack) {
         }).on('end', () => {
 
             var json = JSON.parse(result);
-						var list = new Array();
+                                                var list = new Array();
             for (var val of json) {
                 var object = new Object();
                 object.addr = val["Service"].Address;
-                object.weight = 0;
+                object.weight = 10;
                 list.push(object);
             }
-						console.log(JSON.stringify(list));
+                                                console.log(JSON.stringify(list));
             callBack(JSON.stringify(list));
         });
 
@@ -46,7 +46,7 @@ function register(serviceName, servicePort, serviceIp, heathPath, consulIP) {
         "Port": Number(servicePort),
         "EnableTagOverride": false,
         "Check": {
-            "HTTP": "http://" + serviceIp + ":" + servicePort + heathPath,
+            "HTTP": heathPath,
             "Interval": "10s",
         }
     }
